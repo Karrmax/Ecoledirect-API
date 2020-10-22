@@ -28,8 +28,10 @@ class EcoleDirect:
         if connection.json()['code'] != 200:
             print("error ! bad username or password")
         else:
+            print( connection.json()['data'])
             self.token = connection.json()['token']
             self.id = connection.json()['data']['accounts'][0]['id']
+            self.type = connection.json()['data']['accounts'][0]['typeCompte']
             
     
 
@@ -39,26 +41,29 @@ class EcoleDirect:
             print("Error connection must be acitvate")
             return
 
-        connection = self.__req('https://api.ecoledirecte.com/v3/E/{}/emploidutemps.awp?verbe=get&'.format(self.id), """data={}"token":"{}","dateDebut": "{}","dateFin": "{}","avecTrous": false,{}""".format("{", self.token,startDate,endDate, "}"))
-        if connection.json()['code'] != 200:
-            print("error ! bad username or password")
-        else:
-            # self.token = connection.json()['token']
-            return connection.json()['data']
+        if self.type == 'E':
+            connection = self.__req('https://api.ecoledirecte.com/v3/E/{}/emploidutemps.awp?verbe=get&'.format(self.id), """data={}"token":"{}","dateDebut": "{}","dateFin": "{}","avecTrous": false,{}""".format("{", self.token,startDate,endDate, "}"))
+            if connection.json()['code'] != 200:
+                print("error ! bad username or password")
+            else:
+                return connection.json()['data']
+        elif self.type == '1':
+
     
 
     def getHW(self):
         """get homework from the api"""
         if self.token is None or self.id is None:
             print("Error connection must be acitvate")
-            return   
+            return  
 
-        connection = self.__req('https://api.ecoledirecte.com/v3/Eleves/{}/cahierdetexte.awp?verbe=get&'.format(self.id), """data={}"token":"{}"{}""".format("{", self.token, "}"))
-        if connection.json()['code'] != 200:
-            print("error ! bad username or password")
-        else:
-            # self.token = connection.json()['token']
-            return connection.json()['data']
+        if self.type == 'E':
+            connection = self.__req('https://api.ecoledirecte.com/v3/Eleves/{}/cahierdetexte.awp?verbe=get&'.format(self.id), """data={}"token":"{}"{}""".format("{", self.token, "}"))
+            if connection.json()['code'] != 200:
+                print("error ! bad username or password")
+            else:
+                return connection.json()['data']
+        elif self.type == '1':
             
 
 
@@ -68,13 +73,13 @@ class EcoleDirect:
             print("Error connection must be acitvate")
             return 
             
-        connection = self.__req('https://api.ecoledirecte.com/v3/eleves/{}/notes.awp?verbe=get&'.format(self.id), """data={}"token":"{}"{}""".format("{", self.token, "}"))
-        if connection.json()['code'] != 200:
-            print("error ! bad username or password")
-        else:
-            # self.token = connection.json()['token']
-            return connection.json()['data']
-
+        if self.type == 'E':
+            connection = self.__req('https://api.ecoledirecte.com/v3/eleves/{}/notes.awp?verbe=get&'.format(self.id), """data={}"token":"{}"{}""".format("{", self.token, "}"))
+            if connection.json()['code'] != 200:
+                print("error ! bad username or password")
+            else:
+                return connection.json()['data']
+        elif self.type == '1':
 
     def getSL(self):
         """get notes from the api"""
@@ -82,9 +87,10 @@ class EcoleDirect:
             print("Error connection must be acitvate")
             return 
             
-        connection = self.__req('https://api.ecoledirecte.com/v3/eleves/{}/viescolaire.awp?verbe=get&='.format(self.id), """data={}"token":"{}"{}""".format("{", self.token, "}"))
-        if connection.json()['code'] != 200:
-            print("error ! bad username or password")
-        else:
-            # self.token = connection.json()['token']
-            return connection.json()['data'] 
+        if self.type == 'E':
+            connection = self.__req('https://api.ecoledirecte.com/v3/eleves/{}/viescolaire.awp?verbe=get&='.format(self.id), """data={}"token":"{}"{}""".format("{", self.token, "}"))
+            if connection.json()['code'] != 200:
+                print("error ! bad username or password")
+            else:
+                return connection.json()['data'] 
+        elif self.type == '1':
