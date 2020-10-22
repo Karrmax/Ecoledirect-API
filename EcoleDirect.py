@@ -77,7 +77,7 @@ class EcoleDirect:
 
 
     def getSL(self):
-        """get notes from the api"""
+        """get sochlar life from the API"""
         if self.token is None or self.id is None:
             print("Error connection must be acitvate")
             return 
@@ -87,4 +87,17 @@ class EcoleDirect:
             print("error ! bad username or password")
         else:
             # self.token = connection.json()['token']
-            return connection.json()['data'] 
+            return connection.json()['data']
+
+    def getCloud(self):
+        """get the cloud from the API"""
+        if self.token is None or self.id is None:
+            print("Error connection must be acitvate")
+            return 
+            
+        connection = self.__req('https://api.ecoledirecte.com/v3/cloud/E/{}.awp?verbe=get&='.format(self.id), """data={}"token":"{}"{}""".format("{", self.token, "}"))
+        if connection.json()['code'] != 200:
+            print("error ! bad username or password")
+        else:
+            # self.token = connection.json()['token']
+            return connection.json()['data']
